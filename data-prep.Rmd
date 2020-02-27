@@ -1,0 +1,35 @@
+---
+title: "Data Preparation"
+author: "Mayank Goel"
+date: "2/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r cars}
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-1.csv"))
+head(df)
+```
+
+
+```{r}
+head(df,20)
+aggregate(speed_mph_mean ~ utc_timestamp, df, mean)
+```
+
+
+```{r}
+library(sqldf)
+jan = sqldf('SELECT year, month, day , AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+```
+
+
+
+```{r}
+write.csv(jan, here("Data","2019-Jan-Daily-Aggregated.csv"))
+```
+
