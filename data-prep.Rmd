@@ -72,3 +72,101 @@ head(df)
 ```{r}
 month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
 write.csv(month, here("Data","2019-Apr-Daily-Aggregated.csv"))
+```
+
+
+```{r}
+library(sqldf)
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-5.csv"))
+head(df)
+```
+
+```{r}
+month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+write.csv(month, here("Data","2019-May-Daily-Aggregated.csv"))
+```
+
+```{r}
+library(sqldf)
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-6.csv"))
+head(df)
+```
+
+```{r}
+month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+write.csv(month, here("Data","2019-Jun-Daily-Aggregated.csv"))
+```
+
+```{r}
+library(sqldf)
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-7.csv"))
+head(df)
+```
+
+```{r}
+month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+write.csv(month, here("Data","2019-Jul-Daily-Aggregated.csv"))
+```
+
+```{r}
+library(sqldf)
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-8.csv"))
+head(df)
+```
+
+```{r}
+month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+write.csv(month, here("Data","2019-Aug-Daily-Aggregated.csv"))
+```
+
+```{r}
+library(sqldf)
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-9.csv"))
+head(df)
+```
+
+```{r}
+month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+write.csv(month, here("Data","2019-Sep-Daily-Aggregated.csv"))
+```
+
+```{r}
+library(sqldf)
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-10.csv"))
+head(df)
+```
+
+```{r}
+month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+write.csv(month, here("Data","2019-Jun-Daily-Aggregated.csv"))
+```
+
+```{r}
+library(sqldf)
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-6.csv"))
+head(df)
+```
+
+```{r}
+month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+write.csv(month, here("Data","2019-Jun-Daily-Aggregated.csv"))
+```
+
+```{r}
+library(sqldf)
+library(here)
+df = read.csv(here("Data","movement-speeds-hourly-seattle-2019-6.csv"))
+head(df)
+```
+
+```{r}
+month = sqldf('SELECT year, month, day , utc_timestamp, AVG(speed_mph_mean) AS speed_mph_mean, AVG(speed_mph_stddev) AS speed_mph_stddev FROM df GROUP BY month, day')
+write.csv(month, here("Data","2019-Jun-Daily-Aggregated.csv"))
+```
