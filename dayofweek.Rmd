@@ -1,0 +1,129 @@
+---
+title: "data-model"
+author: "Mayank Goel"
+date: "2/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+jan = read.csv(here("Data","2019-Jan-Daily-Aggregated.csv"))
+feb = read.csv(here("Data","2019-Feb-Daily-Aggregated.csv"))
+mar = read.csv(here("Data","2019-Mar-Daily-Aggregated.csv"))
+apr = read.csv(here("Data","2019-Apr-Daily-Aggregated.csv"))
+may = read.csv(here("Data","2019-May-Daily-Aggregated.csv"))
+jun = read.csv(here("Data","2019-Jun-Daily-Aggregated.csv"))
+jul = read.csv(here("Data","2019-Jul-Daily-Aggregated.csv"))
+aug = read.csv(here("Data","2019-Aug-Daily-Aggregated.csv"))
+sep = read.csv(here("Data","2019-Sep-Daily-Aggregated.csv"))
+oct = read.csv(here("Data","2019-Oct-Daily-Aggregated.csv"))
+nov = read.csv(here("Data","2019-Nov-Daily-Aggregated.csv"))
+dec = read.csv(here("Data","2019-Dec-Daily-Aggregated.csv"))
+
+```
+
+
+
+```{r}
+df = rbind(jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec)
+df$date = ISOdate(df$year,df$month, df$day)
+df$dayofweek <- weekdays(as.Date(df$date))
+```
+
+```{r}
+
+library(tidyverse)
+
+remove_outliers <- function(x) {
+quantiles <- quantile(x, c(0, .95 ) )
+y = x
+y[ y > quantiles[2] ] <- quantiles[2]
+y
+}
+
+
+add_new_column <- function(df) {
+  speed_mph_mean_capped <- remove_outliers(df$speed_mph_mean)
+  return(cbind(speed_mph_mean_capped,df))
+}
+
+dfnew <- df %>%
+  group_by(dayofweek) %>%
+  nest() %>%
+  mutate(data = map(data, add_new_column)) %>%
+  unnest()
+
+df = dfnew
+```
+
+```{r}
+df
+write.csv(df, here("Data","2019-Daily-Aggregated.csv"))
+```
+
+```{r}
+summary(df$speed_mph_mean)
+sd(df$speed_mph_mean)
+var(df$speed_mph_mean)
+```
+```{r}
+summary(df)
+boxplot(df$speed_mph_mean_capped~df$dayofweek)
+```
+```{r}
+library(dplyr)
+grp <- group_by(df, dayofweek)
+summarise(grp, mean=mean(speed_mph_mean_capped), var_uncapped=var(speed_mph_mean), var_capped = var(speed_mph_mean_capped), min = min(speed_mph_mean_capped), max = max(speed_mph_mean_capped))
+```
+
+```{r}
+g = df$speed_mph_mean_capped
+m<-mean(g)
+std<-sqrt(var(g))
+hist(g, density=20, breaks=40, prob=TRUE, 
+     xlab="mean speed", ylim=c(0, 0.6), 
+     main="normal curve over histogram")
+curve(dnorm(x, mean=m, sd=std), 
+      col="darkblue", lwd=2, add=TRUE, yaxt="n")
+```
+
+
+
+
+```{r}
+fit = aov(speed_mph_mean_capped~factor(dayofweek),df)
+summary(fit)
+```
+
+
+```{r}
+summary(df$dayofweek)
+
+```
+
+```{r,echo=F,fig.height=2.5,fig.width=4.5}
+qqnorm(df$speed_mph_mean_capped)
+qqline(df$speed_mph_mean_capped)
+
+```
+
+
+
+```{r,echo=F,fig.height=2.5,fig.width=4.5}
+qqnorm(model3$residuals)
+qqline(model3$residuals)
+#plot(fit)
+```
+
+
+
+
+```{r}
+boxplot(df$new ~ df$dayofweek)
+```
+
