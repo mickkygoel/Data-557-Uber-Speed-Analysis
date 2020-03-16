@@ -79,6 +79,8 @@ curve(dnorm(x, mean=m, sd=std),
 qqnorm(all_festival_data$mean_speed)
 qqline(all_festival_data$mean_speed)
 
+#Box Plot
+
 # --- Hypothesis Testing ---#
 DF <- summary(all_thnx_data$mean_speed)
 sd(all_thnx_data$mean_speed)
@@ -105,6 +107,32 @@ summary(aov(mean_speed ~ factor(flag), data=all_festival_data))
 
 #Equal variance t-test
 t.test(all_thnx_data$mean_speed, all_xmas_data$mean_speed, var.equal = TRUE)
+
+# Power Calculations
+alpha = 0.05   #significance level 
+n = nrow(all_festival_data)/2    #sample size 
+ma = mean(Christmas)    
+mb = mean(Thanksgiving)   
+sa = sd(Christmas)   
+sb = sd(Thanksgiving)   
+delta = ma - mb #difference between true means 
+t1 = -qnorm(1-(alpha/2))  
+t2 = abs(delta)/sqrt((sa*sa/n) + (sb*sb/n)) 
+tf = t1 + t2 
+power = 100*pnorm(tf)  #power 
+print(power)  
+
+# Desired Sample Size (80% Power)
+beta = 1-0.80   #type 2 error probability 
+n <- ((sa^2 + sb^2)*(qnorm(1-beta)+qnorm(1-alpha/2))^2)/(delta^2) 
+n <- round(n,0) 
+print(n)  #Desired sample size 
+
+# Desired Sample Size (90% Power)
+beta = 1-0.90   #type 2 error probability 
+n <- ((sa^2 + sb^2)*(qnorm(1-beta)+qnorm(1-alpha/2))^2)/(delta^2) 
+n <- round(n,0) 
+print(n)  #Desired sample size 
 
 # Daily data for 2018 and 2019 (for trend plots)
 nov_data_2019 <- nov2019_data %>% 
@@ -133,3 +161,4 @@ Nov_Dec_2018 <- rbind(nov_data_2018, dec_data_2018)
 
 write.csv(Nov_Dec_2018, file = "D:/UW_MSDS/Q2 - Applied Stats/Project/Daily_Nov_Dec_2018.csv", col.names = TRUE, row.names = FALSE)
 write.csv(Nov_Dec_2019, file = "D:/UW_MSDS/Q2 - Applied Stats/Project/Daily_Nov_Dec_2019.csv", col.names = TRUE, row.names = FALSE)
+write.csv(all_festival_data, file = "D:/UW_MSDS/Q2 - Applied Stats/Project/All_festival_data.csv", col.names = TRUE, row.names = FALSE)
